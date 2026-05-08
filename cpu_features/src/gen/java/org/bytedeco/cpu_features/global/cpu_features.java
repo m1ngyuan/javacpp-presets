@@ -56,7 +56,7 @@ public class cpu_features extends org.bytedeco.cpu_features.presets.cpu_features
 // #define CPU_FEATURES_ARCH_ARM
 // #endif
 
-// #if defined(__aarch64__)
+// #if (defined(__aarch64__) || defined(_M_ARM64))
 // #define CPU_FEATURES_ARCH_AARCH64
 // #endif
 
@@ -80,12 +80,40 @@ public class cpu_features extends org.bytedeco.cpu_features.presets.cpu_features
 // #define CPU_FEATURES_ARCH_PPC
 // #endif
 
+// #if defined(__s390x__)
+// #define CPU_FEATURES_ARCH_S390X
+// #endif
+
+// #if defined(__riscv)
+// #define CPU_FEATURES_ARCH_RISCV
+// #endif
+
+// #if defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 32
+// #define CPU_FEATURES_ARCH_RISCV32
+// #endif
+
+// #if defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 64
+// #define CPU_FEATURES_ARCH_RISCV64
+// #endif
+
+// #if defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 128
+// #define CPU_FEATURES_ARCH_RISCV128
+// #endif
+
+// #if defined(__loongarch64)
+// #define CPU_FEATURES_ARCH_LOONGARCH
+// #endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // Os
 ////////////////////////////////////////////////////////////////////////////////
 
 // #if (defined(__freebsd__) || defined(__FreeBSD__))
 // #define CPU_FEATURES_OS_FREEBSD
+// #endif
+
+// #if defined(__OpenBSD__)
+// #define CPU_FEATURES_OS_OPENBSD
 // #endif
 
 // #if defined(__ANDROID__)
@@ -104,10 +132,10 @@ public class cpu_features extends org.bytedeco.cpu_features.presets.cpu_features
 // #if (defined(__apple__) || defined(__APPLE__) || defined(__MACH__))
 // From https://stackoverflow.com/a/49560690
 // #include "TargetConditionals.h"
-// #if defined(TARGET_OS_OSX)
+// #if TARGET_OS_OSX
 // #define CPU_FEATURES_OS_MACOS
 // #endif
-// #if defined(TARGET_OS_IPHONE)
+// #if TARGET_OS_IPHONE
 // This is set for any non-Mac Apple products (IOS, TV, WATCH)
 // #define CPU_FEATURES_OS_IPHONE
 // #endif
@@ -225,11 +253,13 @@ public static final int CPU_FEATURES_COMPILED_X86_AVX2 = 1;
 // #endif  // defined(CPU_FEATURES_ARCH_X86)
 
 // #if defined(CPU_FEATURES_ARCH_ANY_ARM)
-// #if defined(__ARM_NEON__)
+// Note: MSVC targeting ARM does not define `__ARM_NEON` but Windows on ARM
+// requires it. In that case we force NEON detection.
+// #if defined(__ARM_NEON) || defined(CPU_FEATURES_COMPILER_MSC)
 // #define CPU_FEATURES_COMPILED_ANY_ARM_NEON 1
 // #else
 // #define CPU_FEATURES_COMPILED_ANY_ARM_NEON 0
-// #endif  //  defined(__ARM_NEON__)
+// #endif  //  defined(__ARM_NEON) || defined(CPU_FEATURES_COMPILER_MSC)
 // #endif  //  defined(CPU_FEATURES_ARCH_ANY_ARM)
 
 // #if defined(CPU_FEATURES_ARCH_MIPS)
@@ -238,7 +268,120 @@ public static final int CPU_FEATURES_COMPILED_X86_AVX2 = 1;
 // #else
 // #define CPU_FEATURES_COMPILED_MIPS_MSA 0
 // #endif  //  defined(__mips_msa)
+// #if defined(__mips3d)
+// #define CPU_FEATURES_COMPILED_MIPS_MIPS3D 1
+// #else
+// #define CPU_FEATURES_COMPILED_MIPS_MIPS3D 0
+// #endif
 // #endif  //  defined(CPU_FEATURES_ARCH_MIPS)
+
+// #if defined(CPU_FEATURES_ARCH_RISCV)
+// #if defined(__riscv_e)
+// #define CPU_FEATURES_COMPILED_RISCV_E 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_E 0
+// #endif
+// #if defined(__riscv_i)
+// #define CPU_FEATURES_COMPILED_RISCV_I 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_I 0
+// #endif
+// #if defined(__riscv_m)
+// #define CPU_FEATURES_COMPILED_RISCV_M 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_M 0
+// #endif
+// #if defined(__riscv_a)
+// #define CPU_FEATURES_COMPILED_RISCV_A 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_A 0
+// #endif
+// #if defined(__riscv_f)
+// #define CPU_FEATURES_COMPILED_RISCV_F 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_F 0
+// #endif
+// #if defined(__riscv_d)
+// #define CPU_FEATURES_COMPILED_RISCV_D 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_D 0
+// #endif
+// #if defined(__riscv_q)
+// #define CPU_FEATURES_COMPILED_RISCV_Q 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_Q 0
+// #endif
+// #if defined(__riscv_c)
+// #define CPU_FEATURES_COMPILED_RISCV_C 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_C 0
+// #endif
+// #if defined(__riscv_v)
+// #define CPU_FEATURES_COMPILED_RISCV_V 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_V 0
+// #endif
+// #if defined(__riscv_zba)
+// #define CPU_FEATURES_COMPILED_RISCV_ZBA 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZBA 0
+// #endif
+// #if defined(__riscv_zbb)
+// #define CPU_FEATURES_COMPILED_RISCV_ZBB 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZBB 0
+// #endif
+// #if defined(__riscv_zbc)
+// #define CPU_FEATURES_COMPILED_RISCV_ZBC 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZBC 0
+// #endif
+// #if defined(__riscv_zbs)
+// #define CPU_FEATURES_COMPILED_RISCV_ZBS 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZBS 0
+// #endif
+// #if defined(__riscv_zfh)
+// #define CPU_FEATURES_COMPILED_RISCV_ZFH 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZFH 0
+// #endif
+// #if defined(__riscv_zfhmin)
+// #define CPU_FEATURES_COMPILED_RISCV_ZFHMIN 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZFHMIN 0
+// #endif
+// #if defined(__riscv_zknd)
+// #define CPU_FEATURES_COMPILED_RISCV_ZKND 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZKND 0
+// #endif
+// #if defined(__riscv_zkne)
+// #define CPU_FEATURES_COMPILED_RISCV_ZKNE 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZKNE 0
+// #endif
+// #if defined(__riscv_zknh)
+// #define CPU_FEATURES_COMPILED_RISCV_ZKNH 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZKNH 0
+// #endif
+// #if defined(__riscv_zksed)
+// #define CPU_FEATURES_COMPILED_RISCV_ZKSED 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZKSED 0
+// #endif
+// #if defined(__riscv_zksh)
+// #define CPU_FEATURES_COMPILED_RISCV_ZKSH 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZKSH 0
+// #endif
+// #if defined(__riscv_zkr)
+// #define CPU_FEATURES_COMPILED_RISCV_ZKR 1
+// #else
+// #define CPU_FEATURES_COMPILED_RISCV_ZKR 0
+// #endif
+// #endif  //  defined(CPU_FEATURES_ARCH_RISCV)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Utils
@@ -256,6 +399,8 @@ public static final int CPU_FEATURES_COMPILED_X86_AVX2 = 1;
 // Communicates to the compiler that the function is now deprecated
 // #if defined(CPU_FEATURES_COMPILER_CLANG) || defined(CPU_FEATURES_COMPILER_GCC)
 // #define CPU_FEATURES_DEPRECATED(message) __attribute__((deprecated(message)))
+// #elif defined(CPU_FEATURES_COMPILER_MSC)
+// #define CPU_FEATURES_DEPRECATED(message) __declspec(deprecated(message))
 // #else
 // #define CPU_FEATURES_DEPRECATED(message)
 // #endif
@@ -391,6 +536,50 @@ public static final long AARCH64_HWCAP2_DGH = (1L << 15);
 public static final long AARCH64_HWCAP2_RNG = (1L << 16);
 public static final long AARCH64_HWCAP2_BTI = (1L << 17);
 public static final long AARCH64_HWCAP2_MTE = (1L << 18);
+public static final long AARCH64_HWCAP2_ECV = (1L << 19);
+public static final long AARCH64_HWCAP2_AFP = (1L << 20);
+public static final long AARCH64_HWCAP2_RPRES = (1L << 21);
+public static final long AARCH64_HWCAP2_MTE3 = (1 << 22);
+public static final long AARCH64_HWCAP2_SME = (1 << 23);
+public static final long AARCH64_HWCAP2_SME_I16I64 = (1 << 24);
+public static final long AARCH64_HWCAP2_SME_F64F64 = (1 << 25);
+public static final long AARCH64_HWCAP2_SME_I8I32 = (1 << 26);
+public static final long AARCH64_HWCAP2_SME_F16F32 = (1 << 27);
+public static final long AARCH64_HWCAP2_SME_B16F32 = (1 << 28);
+public static final long AARCH64_HWCAP2_SME_F32F32 = (1 << 29);
+public static final long AARCH64_HWCAP2_SME_FA64 = (1 << 30);
+public static final long AARCH64_HWCAP2_WFXT = (1 << 31);
+public static final long AARCH64_HWCAP2_EBF16 = (1 << 32);
+public static final long AARCH64_HWCAP2_SVE_EBF16 = (1 << 33);
+public static final long AARCH64_HWCAP2_CSSC = (1 << 34);
+public static final long AARCH64_HWCAP2_RPRFM = (1 << 35);
+public static final long AARCH64_HWCAP2_SVE2P1 = (1 << 36);
+public static final long AARCH64_HWCAP2_SME2 = (1 << 37);
+public static final long AARCH64_HWCAP2_SME2P1 = (1 << 38);
+public static final long AARCH64_HWCAP2_SME_I16I32 = (1 << 39);
+public static final long AARCH64_HWCAP2_SME_BI32I32 = (1 << 40);
+public static final long AARCH64_HWCAP2_SME_B16B16 = (1 << 41);
+public static final long AARCH64_HWCAP2_SME_F16F16 = (1 << 42);
+public static final long AARCH64_HWCAP2_MOPS = (1 << 43);
+public static final long AARCH64_HWCAP2_HBC = (1 << 44);
+public static final long AARCH64_HWCAP2_SVE_B16B16 = (1 << 45);
+public static final long AARCH64_HWCAP2_LRCPC3 = (1 << 46);
+public static final long AARCH64_HWCAP2_LSE128 = (1 << 47);
+public static final long AARCH64_HWCAP2_FPMR = (1 << 48);
+public static final long AARCH64_HWCAP2_LUT = (1 << 49);
+public static final long AARCH64_HWCAP2_FAMINMAX = (1 << 50);
+public static final long AARCH64_HWCAP2_F8CVT = (1 << 51);
+public static final long AARCH64_HWCAP2_F8FMA = (1 << 52);
+public static final long AARCH64_HWCAP2_F8DP4 = (1 << 53);
+public static final long AARCH64_HWCAP2_F8DP2 = (1 << 54);
+public static final long AARCH64_HWCAP2_F8E4M3 = (1 << 55);
+public static final long AARCH64_HWCAP2_F8E5M2 = (1 << 56);
+public static final long AARCH64_HWCAP2_SME_LUTV2 = (1 << 57);
+public static final long AARCH64_HWCAP2_SME_F8F16 = (1 << 58);
+public static final long AARCH64_HWCAP2_SME_F8F32 = (1 << 59);
+public static final long AARCH64_HWCAP2_SME_SF8FMA = (1 << 60);
+public static final long AARCH64_HWCAP2_SME_SF8DP4 = (1 << 61);
+public static final long AARCH64_HWCAP2_SME_SF8DP2 = (1 << 62);
 
 // http://elixir.free-electrons.com/linux/latest/source/arch/arm/include/uapi/asm/hwcap.h
 public static final long ARM_HWCAP_SWP = (1L << 0);
@@ -425,6 +614,13 @@ public static final long ARM_HWCAP2_CRC32 = (1L << 4);
 public static final long MIPS_HWCAP_R6 = (1L << 0);
 public static final long MIPS_HWCAP_MSA = (1L << 1);
 public static final long MIPS_HWCAP_CRC32 = (1L << 2);
+public static final long MIPS_HWCAP_MIPS16 = (1L << 3);
+public static final long MIPS_HWCAP_MDMX  = (1L << 4);
+public static final long MIPS_HWCAP_MIPS3D  = (1L << 5);
+public static final long MIPS_HWCAP_SMARTMIPS  = (1L << 6);
+public static final long MIPS_HWCAP_DSP  = (1L << 7);
+public static final long MIPS_HWCAP_DSP2   = (1L << 8);
+public static final long MIPS_HWCAP_DSP3= (1L << 9);
 
 // http://elixir.free-electrons.com/linux/latest/source/arch/powerpc/include/uapi/asm/cputable.h
 // #ifndef _UAPI__ASM_POWERPC_CPUTABLE_H
@@ -475,6 +671,17 @@ public static final int PPC_FEATURE2_HAS_IEEE128 = 0x00400000;
 public static final int PPC_FEATURE2_DARN = 0x00200000;
 public static final int PPC_FEATURE2_SCV = 0x00100000;
 public static final int PPC_FEATURE2_HTM_NO_SUSPEND = 0x00080000;
+
+// https://elixir.bootlin.com/linux/latest/source/arch/riscv/include/uapi/asm/hwcap.h
+public static final int RISCV_HWCAP_A = (1 << ('A' - 'A'));
+public static final int RISCV_HWCAP_C = (1 << ('C' - 'A'));
+public static final int RISCV_HWCAP_D = (1 << ('D' - 'A'));
+public static final int RISCV_HWCAP_E = (1 << ('E' - 'A'));
+public static final int RISCV_HWCAP_F = (1 << ('F' - 'A'));
+public static final int RISCV_HWCAP_I = (1 << ('I' - 'A'));
+public static final int RISCV_HWCAP_M = (1 << ('M' - 'A'));
+public static final int RISCV_HWCAP_V = (1 << ('V' - 'A'));
+public static final int RISCV_HWCAP_Q = (1 << ('Q' - 'A'));
 // Targeting ../HardwareCapabilities.java
 
 
@@ -512,6 +719,98 @@ public static final int PPC_FEATURE2_HTM_NO_SUSPEND = 0x00080000;
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+// A note on Windows AArch64 implementation
+
+// Getting cpu info via EL1 system registers is not possible, so we delegate it
+// to the Windows API (i.e., IsProcessorFeaturePresent and GetNativeSystemInfo).
+// The `implementer`, `variant` and `part` fields of the `Aarch64Info` struct
+// are not used, so they are set to 0. To get `revision` we use
+// `wProcessorRevision` from `SYSTEM_INFO`.
+//
+// Cryptographic Extension:
+// -----------------------------------------------------------------------------
+// According to documentation Arm Architecture Reference Manual for
+// A-profile architecture. A2.3 The Armv8 Cryptographic Extension. The Armv8.0
+// Cryptographic Extension provides instructions for the acceleration of
+// encryption and decryption, and includes the following features: FEAT_AES,
+// FEAT_PMULL, FEAT_SHA1, FEAT_SHA256.
+// see: https://developer.arm.com/documentation/ddi0487/latest
+//
+// We use `PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE` to detect all Armv8.0 crypto
+// features. This value reports all features or nothing, so even if you only
+// have support FEAT_AES and FEAT_PMULL, it will still return false.
+//
+// From Armv8.2, an implementation of the Armv8.0 Cryptographic Extension can
+// include either or both of:
+//
+// • The AES functionality, including support for multiplication of 64-bit
+//   polynomials. The ID_AA64ISAR0_EL1.AES field indicates whether this
+//   functionality is supported.
+// • The SHA1 and SHA2-256 functionality. The ID_AA64ISAR0_EL1.{SHA2, SHA1}
+//   fields indicate whether this functionality is supported.
+//
+// ID_AA64ISAR0_EL1.AES, bits [7:4]:
+// Indicates support for AES instructions in AArch64 state. Defined values are:
+// - 0b0000 No AES instructions implemented.
+// - 0b0001 AESE, AESD, AESMC, and AESIMC instructions implemented.
+// - 0b0010 As for 0b0001, plus PMULL/PMULL2 instructions operating on 64-bit
+//   data quantities.
+//
+// FEAT_AES implements the functionality identified by the value 0b0001.
+// FEAT_PMULL implements the functionality identified by the value 0b0010.
+// From Armv8, the permitted values are 0b0000 and 0b0010.
+//
+// ID_AA64ISAR0_EL1.SHA1, bits [11:8]:
+// Indicates support for SHA1 instructions in AArch64 state. Defined values are:
+// - 0b0000 No SHA1 instructions implemented.
+// - 0b0001 SHA1C, SHA1P, SHA1M, SHA1H, SHA1SU0, and SHA1SU1 instructions
+//   implemented.
+//
+// FEAT_SHA1 implements the functionality identified by the value 0b0001.
+// From Armv8, the permitted values are 0b0000 and 0b0001.
+// If the value of ID_AA64ISAR0_EL1.SHA2 is 0b0000, this field must have the
+// value 0b0000.
+//
+// ID_AA64ISAR0_EL1.SHA2, bits [15:12]:
+// Indicates support for SHA2 instructions in AArch64 state. Defined values are:
+// - 0b0000 No SHA2 instructions implemented.
+// - 0b0001 Implements instructions: SHA256H, SHA256H2, SHA256SU0, and
+//   SHA256SU1.
+// - 0b0010 Implements instructions:
+//          • SHA256H, SHA256H2, SHA256SU0, and SHA256SU1.
+//          • SHA512H, SHA512H2, SHA512SU0, and SHA512SU1.
+//
+// FEAT_SHA256 implements the functionality identified by the value 0b0001.
+// FEAT_SHA512 implements the functionality identified by the value 0b0010.
+//
+// In Armv8, the permitted values are 0b0000 and 0b0001.
+// From Armv8.2, the permitted values are 0b0000, 0b0001, and 0b0010.
+//
+// If the value of ID_AA64ISAR0_EL1.SHA1 is 0b0000, this field must have the
+// value 0b0000.
+//
+// If the value of this field is 0b0010, ID_AA64ISAR0_EL1.SHA3
+// must have the value 0b0001.
+//
+// Other cryptographic features that we cannot detect such as sha512, sha3, sm3,
+// sm4, sveaes, svepmull, svesha3, svesm4 we set to 0.
+//
+// FP/SIMD:
+// -----------------------------------------------------------------------------
+// FP/SIMD must be implemented on all Armv8.0 implementations, but
+// implementations targeting specialized markets may support the following
+// combinations:
+//
+// • No NEON or floating-point.
+// • Full floating-point and SIMD support with exception trapping.
+// • Full floating-point and SIMD support without exception trapping.
+//
+// ref:
+// https://developer.arm.com/documentation/den0024/a/AArch64-Floating-point-and-NEON
+//
+// So, we use `PF_ARM_VFP_32_REGISTERS_AVAILABLE`,
+// `PF_ARM_NEON_INSTRUCTIONS_AVAILABLE` to detect `asimd` and `fp`
 
 // #ifndef CPU_FEATURES_INCLUDE_CPUINFO_AARCH64_H_
 // #define CPU_FEATURES_INCLUDE_CPUINFO_AARCH64_H_
@@ -583,7 +882,52 @@ public static final int
   AARCH64_RNG = 48,
   AARCH64_BTI = 49,
   AARCH64_MTE = 50,
-  AARCH64_LAST_ = 51;
+  AARCH64_ECV = 51 ,
+  AARCH64_AFP = 52 ,
+  AARCH64_RPRES = 53 ,
+  AARCH64_MTE3 = 54 ,
+  AARCH64_SME = 55 ,
+  AARCH64_SME_I16I64 = 56 ,
+  AARCH64_SME_F64F64 = 57 ,
+  AARCH64_SME_I8I32 = 58 ,
+  AARCH64_SME_F16F32 = 59 ,
+  AARCH64_SME_B16F32 = 60 ,
+  AARCH64_SME_F32F32 = 61 ,
+  AARCH64_SME_FA64 = 62 ,
+  AARCH64_WFXT = 63 ,
+  AARCH64_EBF16 = 64 ,
+  AARCH64_SVE_EBF16 = 65 ,
+  AARCH64_CSSC = 66 ,
+  AARCH64_RPRFM = 67 ,
+  AARCH64_SVE2P1 = 68 ,
+  AARCH64_SME2 = 69 ,
+  AARCH64_SME2P1 = 70 ,
+  AARCH64_SME_I16I32 = 71 ,
+  AARCH64_SME_BI32I32 = 72 ,
+  AARCH64_SME_B16B16 = 73 ,
+  AARCH64_SME_F16F16 = 74 ,
+  AARCH64_MOPS = 75 ,
+  AARCH64_HBC = 76 ,
+  AARCH64_SVE_B16B16 = 77 ,
+  AARCH64_LRCPC3 = 78 ,
+  AARCH64_LSE128 = 79 ,
+  AARCH64_FPMR = 80 ,
+  AARCH64_LUT = 81 ,
+  AARCH64_FAMINMAX = 82 ,
+  AARCH64_F8CVT = 83 ,
+  AARCH64_F8FMA = 84 ,
+  AARCH64_F8DP4 = 85 ,
+  AARCH64_F8DP2 = 86 ,
+  AARCH64_F8E4M3 = 87 ,
+  AARCH64_F8E5M2 = 88 ,
+  AARCH64_SME_LUTV2 = 89 ,
+  AARCH64_SME_F8F16 = 90 ,
+  AARCH64_SME_F8F32 = 91 ,
+  AARCH64_SME_SF8FMA = 92 ,
+  AARCH64_SME_SF8DP4 = 93 ,
+  AARCH64_SME_SF8DP2 = 94 ,
+  AARCH64_POE = 95 ,
+  AARCH64_LAST_ = 96;
 
 @Namespace("cpu_features") public static native int GetAarch64FeaturesEnumValue(@Const Aarch64Features features,
                                 @Cast("cpu_features::Aarch64FeaturesEnum") int value);
@@ -718,7 +1062,12 @@ public static final int
   MIPS_MSA = 0,
   MIPS_EVA = 1,
   MIPS_R6 = 2,
-  MIPS_LAST_ = 3;
+  MIPS_MIPS16 = 3,
+  MIPS_MDMX = 4,
+  MIPS_MIPS3D = 5,
+  MIPS_SMART = 6,
+  MIPS_DSP = 7,
+  MIPS_LAST_ = 8;
 
 @Namespace("cpu_features") public static native int GetMipsFeaturesEnumValue(@Const MipsFeatures features,
                              @Cast("cpu_features::MipsFeaturesEnum") int value);
@@ -783,7 +1132,7 @@ public static final int
   PPC_HAS_MMU = 5,     /* Memory management unit */
   PPC_HAS_4xxMAC = 6,
   PPC_UNIFIED_CACHE = 7,  /* Unified instruction and data cache */
-  PPC_HAS_SPE = 8,        /* Signal processing extention unit */
+  PPC_HAS_SPE = 8,        /* Signal processing extension unit */
   PPC_HAS_EFP_SINGLE = 9, /* SPE single precision fpu */
   PPC_HAS_EFP_DOUBLE = 10, /* SPE double precision fpu */
   PPC_NO_TB = 11,          /* No timebase */
@@ -800,7 +1149,7 @@ public static final int
   PPC_POWER6_EXT = 22,
   PPC_ARCH_2_06 = 23,              /* ISA 2.06 - POWER7 */
   PPC_HAS_VSX = 24,                /* Vector-scalar extension */
-  PPC_PSERIES_PERFMON_COMPAT = 25, /* Set of backwards compatibile performance
+  PPC_PSERIES_PERFMON_COMPAT = 25, /* Set of backwards compatible performance
                                  monitoring events */
   PPC_TRUE_LE = 26,
   PPC_PPC_LE = 27,
@@ -895,37 +1244,46 @@ public static final int
   INTEL_HSW = 16,           // HASWELL
   INTEL_BDW = 17,           // BROADWELL
   INTEL_SKL = 18,           // SKYLAKE
-  INTEL_ATOM_GMT = 19,      // GOLDMONT
-  INTEL_KBL = 20,           // KABY LAKE
-  INTEL_CFL = 21,           // COFFEE LAKE
-  INTEL_WHL = 22,           // WHISKEY LAKE
-  INTEL_CNL = 23,           // CANNON LAKE
-  INTEL_ICL = 24,           // ICE LAKE
-  INTEL_TGL = 25,           // TIGER LAKE
-  INTEL_SPR = 26,           // SAPPHIRE RAPIDS
-  INTEL_ADL = 27,           // ALDER LAKE
-  INTEL_RCL = 28,           // ROCKET LAKE
-  INTEL_KNIGHTS_M = 29,     // KNIGHTS MILL
-  INTEL_KNIGHTS_L = 30,     // KNIGHTS LANDING
-  INTEL_KNIGHTS_F = 31,     // KNIGHTS FERRY
-  INTEL_KNIGHTS_C = 32,     // KNIGHTS CORNER
-  INTEL_NETBURST = 33,      // NETBURST
-  AMD_HAMMER = 34,          // K8  HAMMER
-  AMD_K10 = 35,             // K10
-  AMD_K11 = 36,             // K11
-  AMD_K12 = 37,             // K12
-  AMD_BOBCAT = 38,          // K14 BOBCAT
-  AMD_PILEDRIVER = 39,      // K15 PILEDRIVER
-  AMD_STREAMROLLER = 40,    // K15 STREAMROLLER
-  AMD_EXCAVATOR = 41,       // K15 EXCAVATOR
-  AMD_BULLDOZER = 42,       // K15 BULLDOZER
-  AMD_JAGUAR = 43,          // K16 JAGUAR
-  AMD_PUMA = 44,            // K16 PUMA
-  AMD_ZEN = 45,             // K17 ZEN
-  AMD_ZEN_PLUS = 46,        // K17 ZEN+
-  AMD_ZEN2 = 47,            // K17 ZEN 2
-  AMD_ZEN3 = 48,            // K19 ZEN 3
-  X86_MICROARCHITECTURE_LAST_ = 49;
+  INTEL_CCL= 19,            // CASCADELAKE
+  INTEL_ATOM_GMT = 20,      // GOLDMONT
+  INTEL_ATOM_GMT_PLUS = 21, // GOLDMONT+
+  INTEL_ATOM_TMT= 22,       // TREMONT
+  INTEL_KBL = 23,           // KABY LAKE
+  INTEL_CFL = 24,           // COFFEE LAKE
+  INTEL_WHL = 25,           // WHISKEY LAKE
+  INTEL_CML= 26,            // COMET LAKE
+  INTEL_CNL = 27,           // CANNON LAKE
+  INTEL_ICL = 28,           // ICE LAKE
+  INTEL_TGL = 29,           // TIGER LAKE
+  INTEL_SPR = 30,           // SAPPHIRE RAPIDS
+  INTEL_ADL = 31,           // ALDER LAKE
+  INTEL_RCL = 32,           // ROCKET LAKE
+  INTEL_RPL = 33,           // RAPTOR LAKE
+  INTEL_LNL = 34,           // LUNAR LAKE
+  INTEL_ARL = 35,           // ARROW LAKE
+  INTEL_KNIGHTS_M = 36,     // KNIGHTS MILL
+  INTEL_KNIGHTS_L = 37,     // KNIGHTS LANDING
+  INTEL_KNIGHTS_F = 38,     // KNIGHTS FERRY
+  INTEL_KNIGHTS_C = 39,     // KNIGHTS CORNER
+  INTEL_NETBURST = 40,      // NETBURST
+  AMD_HAMMER = 41,          // K8  HAMMER
+  AMD_K10 = 42,             // K10
+  AMD_K11 = 43,             // K11
+  AMD_K12 = 44,             // K12 LLANO
+  AMD_BOBCAT = 45,          // K14 BOBCAT
+  AMD_PILEDRIVER = 46,      // K15 PILEDRIVER
+  AMD_STREAMROLLER = 47,    // K15 STREAMROLLER
+  AMD_EXCAVATOR = 48,       // K15 EXCAVATOR
+  AMD_BULLDOZER = 49,       // K15 BULLDOZER
+  AMD_JAGUAR = 50,          // K16 JAGUAR
+  AMD_PUMA = 51,            // K16 PUMA
+  AMD_ZEN = 52,             // K17 ZEN
+  AMD_ZEN_PLUS = 53,        // K17 ZEN+
+  AMD_ZEN2 = 54,            // K17 ZEN 2
+  AMD_ZEN3 = 55,            // K19 ZEN 3
+  AMD_ZEN4 = 56,            // K19 ZEN 4
+  AMD_ZEN5 = 57,            // K1A ZEN 5
+  X86_MICROARCHITECTURE_LAST_ = 58;
 
 // Returns the underlying microarchitecture by looking at X86Info's vendor,
 // family and model.
@@ -970,41 +1328,54 @@ public static final int
   X86_SSE4_2 = 24,
   X86_SSE4A = 25,
   X86_AVX = 26,
-  X86_AVX2 = 27,
-  X86_AVX512F = 28,
-  X86_AVX512CD = 29,
-  X86_AVX512ER = 30,
-  X86_AVX512PF = 31,
-  X86_AVX512BW = 32,
-  X86_AVX512DQ = 33,
-  X86_AVX512VL = 34,
-  X86_AVX512IFMA = 35,
-  X86_AVX512VBMI = 36,
-  X86_AVX512VBMI2 = 37,
-  X86_AVX512VNNI = 38,
-  X86_AVX512BITALG = 39,
-  X86_AVX512VPOPCNTDQ = 40,
-  X86_AVX512_4VNNIW = 41,
-  X86_AVX512_4VBMI2 = 42,
-  X86_AVX512_SECOND_FMA = 43,
-  X86_AVX512_4FMAPS = 44,
-  X86_AVX512_BF16 = 45,
-  X86_AVX512_VP2INTERSECT = 46,
-  X86_AMX_BF16 = 47,
-  X86_AMX_TILE = 48,
-  X86_AMX_INT8 = 49,
-  X86_PCLMULQDQ = 50,
-  X86_SMX = 51,
-  X86_SGX = 52,
-  X86_CX16 = 53,
-  X86_SHA = 54,
-  X86_POPCNT = 55,
-  X86_MOVBE = 56,
-  X86_RDRND = 57,
-  X86_DCA = 58,
-  X86_SS = 59,
-  X86_ADX = 60,
-  X86_LAST_ = 61;
+  X86_AVX_VNNI= 27,
+  X86_AVX2 = 28,
+  X86_AVX512F = 29,
+  X86_AVX512CD = 30,
+  X86_AVX512ER = 31,
+  X86_AVX512PF = 32,
+  X86_AVX512BW = 33,
+  X86_AVX512DQ = 34,
+  X86_AVX512VL = 35,
+  X86_AVX512IFMA = 36,
+  X86_AVX512VBMI = 37,
+  X86_AVX512VBMI2 = 38,
+  X86_AVX512VNNI = 39,
+  X86_AVX512BITALG = 40,
+  X86_AVX512VPOPCNTDQ = 41,
+  X86_AVX512_4VNNIW = 42,
+  X86_AVX512_4VBMI2 = 43,  // Note: this is an alias to X86_AVX512_4FMAPS.
+  X86_AVX512_SECOND_FMA = 44,
+  X86_AVX512_4FMAPS = 45,
+  X86_AVX512_BF16 = 46,
+  X86_AVX512_VP2INTERSECT = 47,
+  X86_AVX512_FP16 = 48,
+  X86_AMX_BF16 = 49,
+  X86_AMX_TILE = 50,
+  X86_AMX_INT8 = 51,
+  X86_AMX_FP16= 52,
+  X86_PCLMULQDQ = 52,
+  X86_SMX = 53,
+  X86_SGX = 54,
+  X86_CX16 = 55,
+  X86_SHA = 56,
+  X86_POPCNT = 57,
+  X86_MOVBE = 58,
+  X86_RDRND = 59,
+  X86_DCA = 60,
+  X86_SS = 61,
+  X86_ADX = 62,
+  X86_LZCNT = 63,
+  X86_GFNI = 64,
+  X86_MOVDIRI = 65,
+  X86_MOVDIR64B = 66,
+  X86_FS_REP_MOV = 67,
+  X86_FZ_REP_MOVSB = 68,
+  X86_FS_REP_STOSB = 69,
+  X86_FS_REP_CMPSB_SCASB = 70,
+  X86_LAM = 71,
+  X86_UAI = 72,
+  X86_LAST_ = 73;
 
 @Namespace("cpu_features") public static native int GetX86FeaturesEnumValue(@Const X86Features features, @Cast("cpu_features::X86FeaturesEnum") int value);
 

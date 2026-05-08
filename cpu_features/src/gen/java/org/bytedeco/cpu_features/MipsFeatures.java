@@ -34,6 +34,12 @@ public class MipsFeatures extends Pointer {
   public native @NoOffset int eva(); public native MipsFeatures eva(int setter);  // Enhanced Virtual Addressing
                 // https://www.mips.com/products/architectures/mips64/
   public native @NoOffset int r6(); public native MipsFeatures r6(int setter);   // True if is release 6 of the processor.
+  public native @NoOffset int mips16(); public native MipsFeatures mips16(int setter);   // Compressed instructions
+  public native @NoOffset int mdmx(); public native MipsFeatures mdmx(int setter);   // MIPS Digital Media Extension
+  public native @NoOffset int mips3d(); public native MipsFeatures mips3d(int setter);   // 3D graphics acceleration
+  public native @NoOffset int smart(); public native MipsFeatures smart(int setter);   // Smart-card cryptography, MIPS(r) Architecture for Programmers, Volume IV-d
+                // https://www.mips.com/products/architectures/ase/dsp/
+  public native @NoOffset int dsp(); public native MipsFeatures dsp(int setter);   // Digital Signal Processing, MIPS(r) Architecture for Programmers, Volume IV-e
 
   // Make sure to update MipsFeaturesEnum below if you add a field here.
 }

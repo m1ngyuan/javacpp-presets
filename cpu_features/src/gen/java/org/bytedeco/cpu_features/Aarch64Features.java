@@ -80,6 +80,50 @@ public class Aarch64Features extends Pointer {
   public native @NoOffset int rng(); public native Aarch64Features rng(int setter);         // True random number generator support.
   public native @NoOffset int bti(); public native Aarch64Features bti(int setter);         // Branch target identification.
   public native @NoOffset int mte(); public native Aarch64Features mte(int setter);         // Memory tagging extension.
-
+  public native @NoOffset int ecv(); public native Aarch64Features ecv(int setter);         // Enhanced counter virtualization.
+  public native @NoOffset int afp(); public native Aarch64Features afp(int setter);         // Alternate floating-point behaviour.
+  public native @NoOffset int rpres(); public native Aarch64Features rpres(int setter);       // 12-bit reciprocal (square root) estimate precision.
+  public native @NoOffset int mte3(); public native Aarch64Features mte3(int setter);        // MTE asymmetric fault handling.
+  public native @NoOffset int sme(); public native Aarch64Features sme(int setter);       // Scalable Matrix Extension.
+  public native @NoOffset int smei16i64(); public native Aarch64Features smei16i64(int setter);   // 16-bit to 64-bit integer widening outer product.
+  public native @NoOffset int smef64f64(); public native Aarch64Features smef64f64(int setter);   // FP64 to FP64 outer product.
+  public native @NoOffset int smei8i32(); public native Aarch64Features smei8i32(int setter);    // 8-bit to 32-bit integer widening outer product.
+  public native @NoOffset int smef16f32(); public native Aarch64Features smef16f32(int setter);   // FP16 to FP32 outer product.
+  public native @NoOffset int smeb16f32(); public native Aarch64Features smeb16f32(int setter);   // BFloat16 to FP32 outper product.
+  public native @NoOffset int smef32f32(); public native Aarch64Features smef32f32(int setter);   // FP32 to FP32 outer product.
+  public native @NoOffset int smefa64(); public native Aarch64Features smefa64(int setter);     // Full A64 support for SME in streaming mode.
+  public native @NoOffset int wfxt(); public native Aarch64Features wfxt(int setter);        // WFE and WFI with timeout.
+  public native @NoOffset int ebf16(); public native Aarch64Features ebf16(int setter);       // Extended BFloat16 instructions.
+  public native @NoOffset int sveebf16(); public native Aarch64Features sveebf16(int setter);    // SVE BFloat16 instructions.
+  public native @NoOffset int cssc(); public native Aarch64Features cssc(int setter);        // Common short sequence compression instructions.
+  public native @NoOffset int rprfm(); public native Aarch64Features rprfm(int setter);       // Range Prefetch Memory hint instruction.
+  public native @NoOffset int sve2p1(); public native Aarch64Features sve2p1(int setter);      // Scalable Vector Extension (version 2.1).
+  public native @NoOffset int sme2(); public native Aarch64Features sme2(int setter);        // Scalable Matrix Extension (version 2).
+  public native @NoOffset int sme2p1(); public native Aarch64Features sme2p1(int setter);      // Scalable Matrix Extension (version 2.1).
+  public native @NoOffset int smei16i32(); public native Aarch64Features smei16i32(int setter);   // 16-bit to 64-bit integer widening outer product.
+  public native @NoOffset int smebi32i32(); public native Aarch64Features smebi32i32(int setter);  // 1-bit binary to 32-bit integer outer product.
+  public native @NoOffset int smeb16b16(); public native Aarch64Features smeb16b16(int setter);   // SME2.1 BFloat16 instructions.
+  public native @NoOffset int smef16f16(); public native Aarch64Features smef16f16(int setter);   // FP16 to FP16 outer product.
+  public native @NoOffset int mops(); public native Aarch64Features mops(int setter);        // Standardized memory operations.
+  public native @NoOffset int hbc(); public native Aarch64Features hbc(int setter);         // Hinted conditional branches.
+  public native @NoOffset int sveb16b16(); public native Aarch64Features sveb16b16(int setter);   // Non-widening BFloat16 to BFloat16 arithmetic for SVE2 and SME2.
+  public native @NoOffset int lrcpc3(); public native Aarch64Features lrcpc3(int setter);   // Load-Acquire RCpc instructions version 3.
+  public native @NoOffset int lse128(); public native Aarch64Features lse128(int setter);   // 128-bit Atomics.
+  public native @NoOffset int fpmr(); public native Aarch64Features fpmr(int setter);   // Floating-point Mode Register.
+  public native @NoOffset int lut(); public native Aarch64Features lut(int setter);   // Lookup table instructions with 2-bit and 4-bit indices.
+  public native @NoOffset int faminmax(); public native Aarch64Features faminmax(int setter);   // Maximum and minimum absolute value instructions.
+  public native @NoOffset int f8cvt(); public native Aarch64Features f8cvt(int setter);   // FP scaling instructions and FP8 convert instructions.
+  public native @NoOffset int f8fma(); public native Aarch64Features f8fma(int setter);   // Lookup table instructions with 2-bit and 4-bit indices.
+  public native @NoOffset int f8dp4(); public native Aarch64Features f8dp4(int setter);   // FP8 to single-precision 4-way dot product FDOT (4-way) instructions.
+  public native @NoOffset int f8dp2(); public native Aarch64Features f8dp2(int setter);   // FP8 to half-precision 2-way dot product FDOT (2-way) instructions.
+  public native @NoOffset int f8e4m3(); public native Aarch64Features f8e4m3(int setter);   // Arm FP8 E4M3 format.
+  public native @NoOffset int f8e5m2(); public native Aarch64Features f8e5m2(int setter);   // Arm FP8 E5M2 format.
+  public native @NoOffset int smelutv2(); public native Aarch64Features smelutv2(int setter);   // SME2 lookup table LUTI4 and MOVT instructions.
+  public native @NoOffset int smef8f16(); public native Aarch64Features smef8f16(int setter);   // SME2 F8F16 instructions.
+  public native @NoOffset int smef8f32(); public native Aarch64Features smef8f32(int setter);   // SME2 F8F32 instructions.
+  public native @NoOffset int smesf8fma(); public native Aarch64Features smesf8fma(int setter);   // SVE2 FP8 to single-precision and half-precision multiply-accumulate instructions.
+  public native @NoOffset int smesf8dp4(); public native Aarch64Features smesf8dp4(int setter);   // SVE2 FP8 to single-precision 4-way dot product FDOT (4-way) instructions.
+  public native @NoOffset int smesf8dp2(); public native Aarch64Features smesf8dp2(int setter);   // SVE2 FP8 to half-precision 2-way dot product FDOT (2-way) instructions.
+  public native @NoOffset int poe(); public native Aarch64Features poe(int setter);   // Stage 1 Permission Overlay.
   // Make sure to update Aarch64FeaturesEnum below if you add a field here.
 }

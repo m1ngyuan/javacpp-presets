@@ -30,8 +30,8 @@ public class Aarch64Info extends Pointer {
     }
 
   public native @ByRef Aarch64Features features(); public native Aarch64Info features(Aarch64Features setter);
-  public native int implementer(); public native Aarch64Info implementer(int setter);
-  public native int variant(); public native Aarch64Info variant(int setter);
-  public native int part(); public native Aarch64Info part(int setter);
-  public native int revision(); public native Aarch64Info revision(int setter);
+  public native int implementer(); public native Aarch64Info implementer(int setter);  // We set 0 for Windows.
+  public native int variant(); public native Aarch64Info variant(int setter);  // We set 0 for Windows.
+  public native int part(); public native Aarch64Info part(int setter);  // We set 0 for Windows.
+  public native int revision(); public native Aarch64Info revision(int setter);  // We use GetNativeSystemInfo to get processor revision for Windows.
 }

@@ -60,6 +60,7 @@ public class X86Features extends Pointer {
   public native @NoOffset int sse4a(); public native X86Features sse4a(int setter);
 
   public native @NoOffset int avx(); public native X86Features avx(int setter);
+  public native @NoOffset int avx_vnni(); public native X86Features avx_vnni(int setter);
   public native @NoOffset int avx2(); public native X86Features avx2(int setter);
 
   public native @NoOffset int avx512f(); public native X86Features avx512f(int setter);
@@ -76,14 +77,16 @@ public class X86Features extends Pointer {
   public native @NoOffset int avx512bitalg(); public native X86Features avx512bitalg(int setter);
   public native @NoOffset int avx512vpopcntdq(); public native X86Features avx512vpopcntdq(int setter);
   public native @NoOffset int avx512_4vnniw(); public native X86Features avx512_4vnniw(int setter);
-  public native @NoOffset int avx512_4vbmi2(); public native X86Features avx512_4vbmi2(int setter);
+  public native @NoOffset int avx512_4vbmi2(); public native X86Features avx512_4vbmi2(int setter);  // Note: this is an alias to avx512_4fmaps.
   public native @NoOffset int avx512_second_fma(); public native X86Features avx512_second_fma(int setter);
   public native @NoOffset int avx512_4fmaps(); public native X86Features avx512_4fmaps(int setter);
   public native @NoOffset int avx512_bf16(); public native X86Features avx512_bf16(int setter);
   public native @NoOffset int avx512_vp2intersect(); public native X86Features avx512_vp2intersect(int setter);
+  public native @NoOffset int avx512_fp16(); public native X86Features avx512_fp16(int setter);
   public native @NoOffset int amx_bf16(); public native X86Features amx_bf16(int setter);
   public native @NoOffset int amx_tile(); public native X86Features amx_tile(int setter);
   public native @NoOffset int amx_int8(); public native X86Features amx_int8(int setter);
+  public native @NoOffset int amx_fp16(); public native X86Features amx_fp16(int setter);
 
   public native @NoOffset int pclmulqdq(); public native X86Features pclmulqdq(int setter);
   public native @NoOffset int smx(); public native X86Features smx(int setter);
@@ -97,5 +100,16 @@ public class X86Features extends Pointer {
   public native @NoOffset int dca(); public native X86Features dca(int setter);
   public native @NoOffset int ss(); public native X86Features ss(int setter);
   public native @NoOffset int adx(); public native X86Features adx(int setter);
+  public native @NoOffset int lzcnt(); public native X86Features lzcnt(int setter);  // Note: this flag is called ABM for AMD, LZCNT for Intel.
+  public native @NoOffset int gfni(); public native X86Features gfni(int setter);
+  public native @NoOffset int movdiri(); public native X86Features movdiri(int setter);
+  public native @NoOffset int movdir64b(); public native X86Features movdir64b(int setter);
+  public native @NoOffset int fs_rep_mov(); public native X86Features fs_rep_mov(int setter);          // Fast short REP MOV
+  public native @NoOffset int fz_rep_movsb(); public native X86Features fz_rep_movsb(int setter);      // Fast zero-length REP MOVSB
+  public native @NoOffset int fs_rep_stosb(); public native X86Features fs_rep_stosb(int setter);      // Fast short REP STOSB
+  public native @NoOffset int fs_rep_cmpsb_scasb(); public native X86Features fs_rep_cmpsb_scasb(int setter);   // Fast short REP CMPSB/SCASB
+
+  public native @NoOffset int lam(); public native X86Features lam(int setter);  // Intel Linear Address Mask
+  public native @NoOffset int uai(); public native X86Features uai(int setter);  // AMD Upper Address Ignore
   // Make sure to update X86FeaturesEnum below if you add a field here.
 }
