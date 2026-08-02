@@ -19,44 +19,49 @@ env:
 jobs:
   android-arm:
     runs-on: ubuntu-22.04
+    container: centos:7
     steps:
-      - uses: bytedeco/javacpp-presets/.github/actions/deploy-ubuntu@actions
+      - uses: m1ngyuan/javacpp-presets/.github/actions/deploy-centos@actions-cpu
   android-arm64:
     runs-on: ubuntu-22.04
+    container: centos:7
     steps:
-      - uses: bytedeco/javacpp-presets/.github/actions/deploy-ubuntu@actions
+      - uses: m1ngyuan/javacpp-presets/.github/actions/deploy-centos@actions-cpu
   android-x86:
     runs-on: ubuntu-22.04
+    container: centos:7
     steps:
-      - uses: bytedeco/javacpp-presets/.github/actions/deploy-ubuntu@actions
+      - uses: m1ngyuan/javacpp-presets/.github/actions/deploy-centos@actions-cpu
   android-x86_64:
     runs-on: ubuntu-22.04
+    container: centos:7
     steps:
-      - uses: bytedeco/javacpp-presets/.github/actions/deploy-ubuntu@actions
+      - uses: m1ngyuan/javacpp-presets/.github/actions/deploy-centos@actions-cpu
   linux-armhf:
     runs-on: ubuntu-22.04
+    container: ubuntu:bionic
     steps:
       - uses: bytedeco/javacpp-presets/.github/actions/deploy-ubuntu@actions
   linux-arm64:
     runs-on: ubuntu-22.04
+    container: ubuntu:bionic
     steps:
       - uses: bytedeco/javacpp-presets/.github/actions/deploy-ubuntu@actions
   linux-ppc64le:
     runs-on: ubuntu-22.04
+    container: ubuntu:bionic
     steps:
       - uses: bytedeco/javacpp-presets/.github/actions/deploy-ubuntu@actions
   linux-x86:
     runs-on: ubuntu-22.04
+    container: centos:7
     steps:
-      - uses: bytedeco/javacpp-presets/.github/actions/deploy-ubuntu@actions
+      - uses: m1ngyuan/javacpp-presets/.github/actions/deploy-centos@actions-cpu
   linux-x86_64:
     runs-on: ubuntu-22.04
+    container: centos:7
     steps:
-      - uses: bytedeco/javacpp-presets/.github/actions/deploy-ubuntu@actions
-  macosx-arm64:
-    runs-on: macos-15
-    steps:
-      - uses: bytedeco/javacpp-presets/.github/actions/deploy-macosx@actions
+      - uses: m1ngyuan/javacpp-presets/.github/actions/deploy-centos@actions-cpu
   macosx-x86_64:
     runs-on: macos-15-intel
     steps:
