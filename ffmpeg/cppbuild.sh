@@ -50,7 +50,7 @@ WEBP_VERSION=1.6.0
 AOMAV1_VERSION=3.14.1
 SVTAV1_VERSION=4.2.0
 ZIMG_VERSION=3.0.6
-FFMPEG_VERSION=8.1.2
+FFMPEG_VERSION=9.0
 
 # Vendored snapshot of https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/20847.patch
 # with the unsupported FFmpeg 8.1 Changelog hunk already removed.
